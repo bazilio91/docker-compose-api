@@ -4,9 +4,11 @@ require_relative '../utils/compose_utils'
 
 class Compose
   attr_reader :containers
+  attr_accessor :project_name
 
   def initialize
     @containers = {}
+    @project_name = ComposeUtils.dir_name
   end
 
   public
@@ -39,7 +41,7 @@ class Compose
   #
   def get_containers_by_given_name(given_name)
     @containers.select { |label, container|
-      container.attributes[:name].match(/#{ComposeUtils.dir_name}_#{given_name}_\d+/)
+      container.attributes[:name].match(/#{@project_name}_#{given_name}_\d+/)
     }.values
   end
 

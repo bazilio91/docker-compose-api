@@ -23,7 +23,23 @@ describe DockerCompose do
     end
 
     it 'should raise error when reading an invalid YAML file' do
-      expect{DockerCompose.load('')}.to raise_error(ArgumentError)
+      expect { DockerCompose.load('') }.to raise_error(ArgumentError)
+    end
+
+    context 'Custom project name' do
+      before(:each) {
+        @compose = DockerCompose.load(File.expand_path('spec/docker-compose/fixtures/compose_1.yaml'), false, 'test')
+      }
+
+      it 'should assign project_name to compose' do
+        expect(@compose.project_name).to eq 'test'
+      end
+
+      it 'should assign valid label to containers' do
+        @compose.containers.values.each do |container|
+          expect(container.attributes[:labels]['com.docker.compose.project']).to eq 'test'
+        end
+      end
     end
 
     context 'All containers' do
@@ -308,10 +324,10 @@ describe DockerCompose do
       expect(@compose.get_containers_by_given_name('busybox2')).to eq([@compose.containers['busybox2']])
       expect(@compose.get_containers_by(name: 'busybox-container')).to eq([@compose.containers['busybox1']])
       expect(@compose.get_containers_by(image: 'busybox:latest')).to eq([
-          @compose.containers['busybox1'],
-          @compose.containers['busybox2'],
-          @compose.containers['busybox3']
-      ])
+                                                                          @compose.containers['busybox1'],
+                                                                          @compose.containers['busybox2'],
+                                                                          @compose.containers['busybox3']
+                                                                        ])
     end
   end
 

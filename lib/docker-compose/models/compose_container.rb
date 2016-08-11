@@ -18,7 +18,8 @@ class ComposeContainer
       volumes: hash_attributes[:volumes],
       command: ComposeUtils.format_command(hash_attributes[:command]),
       environment: prepare_environment(hash_attributes[:environment]),
-      labels: prepare_labels(hash_attributes[:labels])
+      labels: prepare_labels(hash_attributes[:labels]),
+      project: hash_attributes[:project]
     }.reject { |key, value| value.nil? }
 
     prepare_compose_labels
@@ -190,7 +191,7 @@ class ComposeContainer
   def prepare_compose_labels
     @attributes[:labels] = {} unless @attributes[:labels].is_a?(Hash)
 
-    @attributes[:labels]['com.docker.compose.project'] = ComposeUtils.dir_name
+    @attributes[:labels]['com.docker.compose.project'] = @attributes[:project]
     @attributes[:labels]['com.docker.compose.service'] = @attributes[:label]
     @attributes[:labels]['com.docker.compose.oneoff'] = 'False'
   end
