@@ -16,6 +16,7 @@ class ComposeContainer
       links: ComposeUtils.format_links(hash_attributes[:links]),
       ports: prepare_ports(hash_attributes[:ports]),
       volumes: hash_attributes[:volumes],
+      volumesFrom: hash_attributes[:volumesFrom],
       command: ComposeUtils.format_command(hash_attributes[:command]),
       environment: prepare_environment(hash_attributes[:environment]),
       labels: prepare_labels(hash_attributes[:labels]),
@@ -83,6 +84,7 @@ class ComposeContainer
       ExposedPorts: exposed_ports,
       Labels: @attributes[:labels],
       HostConfig: {
+        VolumesFrom: @attributes[:volumesFrom],
         Binds: volume_binds,
         Links: links,
         PortBindings: port_bindings
