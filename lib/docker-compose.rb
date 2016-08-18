@@ -93,7 +93,7 @@ module DockerCompose
       ports: ComposeUtils.format_ports_from_running_container(info['NetworkSettings']['Ports']),
       volumes: info['Config']['Volumes'],
       volumesFrom: info['Config']['VolumesFrom'],
-      command: info['Config']['Cmd'].join(' '),
+      command: info['Config']['Cmd'].is_a?(Array) ? info['Config']['Cmd'].join(' ') : nil,
       environment: info['Config']['Env'],
       labels: info['Config']['Labels'],
       project: compose.project_name,
