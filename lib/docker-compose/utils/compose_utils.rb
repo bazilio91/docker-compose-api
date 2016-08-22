@@ -18,7 +18,7 @@ module ComposeUtils
     if @current_container_id.nil?
       # Discovery the max id used by already running containers
       # (default to '0' if no container is running)
-      @current_container_id = Docker::Container.all(all: true).map {|c| c.info['Names'].last.split(/_/).last.to_i}.flatten.max || 0
+      @current_container_id = Docker::Container.all(all: true).map { |c| c.info['Names'].last.split(/_/).last.to_i }.flatten.max || 0
     end
 
     @current_container_id += 1
@@ -145,6 +145,38 @@ module ComposeUtils
     end
 
     links
+  end
+
+
+  #
+  # Parsing service 'restart' option to docker api format
+  #
+  def self.parse_restart_spec(restart_config)
+    return nil unless restart_config
+
+    parts = restart_config.split(':')
+    if parts.size > 2
+      raise "Restart #{restart_config} has incorrect format, should be mode[:max_retry]"
+    end
+    if parts.size == 2
+      name, max_retry_count = parts
+    else
+      name, = parts
+      max_retry_count = 0
+    end
+
+    return {'Name': name, 'MaximumRetryCount': max_retry_count.to_i}
+  end
+
+  def self.serialize_restart_spec(restart_spec)
+    return nil if restart_spec.nil? or restart_spec['Name'].nil?
+
+    parts = [restart_spec['Name']]
+    if restart_spec['MaximumRetryCount'] != 0
+      parts.push(restart_spec['MaximumRetryCount'])
+    end
+
+    parts.join(':')
   end
 
   #

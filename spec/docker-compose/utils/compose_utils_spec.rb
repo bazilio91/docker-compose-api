@@ -120,4 +120,30 @@ describe ComposeUtils do
       expect(name).to match(/#{ComposeUtils.dir_name}_#{@label}_\d+/)
     end
   end
+
+  context 'Format restart' do
+    it 'should parse no' do
+      expect(ComposeUtils.parse_restart_spec('no')).to eq({:Name => 'no', :MaximumRetryCount => 0})
+    end
+
+    it 'should parse always' do
+      expect(ComposeUtils.parse_restart_spec('always')).to eq({:Name => 'always', :MaximumRetryCount => 0})
+    end
+
+    it 'should parse unless-stopped' do
+      expect(ComposeUtils.parse_restart_spec('unless-stopped')).to eq({:Name => 'unless-stopped', :MaximumRetryCount => 0})
+    end
+
+    it 'should parse on-failure' do
+      expect(ComposeUtils.parse_restart_spec('on-failure:1')).to eq({:Name => 'on-failure', :MaximumRetryCount => 1})
+    end
+
+    it 'should serialise no' do
+      expect(ComposeUtils.serialize_restart_spec({'Name' => 'no', 'MaximumRetryCount' => 0})).to eq('no')
+    end
+
+    it 'should serialise no' do
+      expect(ComposeUtils.serialize_restart_spec({'Name' => 'on-failure', 'MaximumRetryCount' => 1})).to eq('on-failure:1')
+    end
+  end
 end

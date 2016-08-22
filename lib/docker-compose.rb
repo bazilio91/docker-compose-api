@@ -76,7 +76,8 @@ module DockerCompose
         command: attributes[1]['command'],
         environment: attributes[1]['environment'],
         labels: attributes[1]['labels'],
-        project: compose.project_name
+        restart: attributes[1]['restart'],
+        project: compose.project_name,
       }
     )
   end
@@ -97,7 +98,7 @@ module DockerCompose
       environment: info['Config']['Env'],
       labels: info['Config']['Labels'],
       project: compose.project_name,
-
+      restart: ComposeUtils.serialize_restart_spec(info['Config']['RestartPolicy']),
       loaded_from_environment: true
     }
 
