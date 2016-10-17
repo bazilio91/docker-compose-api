@@ -9,6 +9,7 @@ describe ComposeContainer do
         name: SecureRandom.hex,
         links: ['service1:label', 'service2'],
         ports: ['3000', '8000:8000', '127.0.0.1:8001:8001'],
+        netowork_mode: 'bridge',
         volumes: ['/tmp'],
         command: 'ping -c 3 localhost',
         environment: ['ENVIRONMENT'],
@@ -27,6 +28,7 @@ describe ComposeContainer do
       expect(@entry.attributes[:command]).to eq(@attributes[:command].split(' '))
       expect(@entry.attributes[:environment]).to eq(@attributes[:environment])
       expect(@entry.attributes[:labels]).to eq(@attributes[:labels])
+      expect(@entry.attributes[:netowrk_mode]).to eq(@attributes[:netowrk_mode])
     end
 
     it 'should map ports' do

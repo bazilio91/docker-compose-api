@@ -15,6 +15,7 @@ class ComposeContainer
       build: hash_attributes[:build],
       links: ComposeUtils.format_links(hash_attributes[:links]),
       ports: prepare_ports(hash_attributes[:ports]),
+      network_mode: prepare_ports(hash_attributes[:network_mode]),
       volumes: hash_attributes[:volumes],
       volumesFrom: hash_attributes[:volumesFrom],
       restart: hash_attributes[:restart],
@@ -89,7 +90,8 @@ class ComposeContainer
         Binds: volume_binds,
         Links: links,
         PortBindings: port_bindings,
-        RestartPolicy: ComposeUtils.parse_restart_spec(@attributes[:restart])
+        RestartPolicy: ComposeUtils.parse_restart_spec(@attributes[:restart]),
+        NetworkMode: @attributes['notwork_mode']
       }
     }
 
