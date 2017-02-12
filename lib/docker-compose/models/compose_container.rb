@@ -22,7 +22,12 @@ class ComposeContainer
       command: ComposeUtils.format_command(hash_attributes[:command]),
       environment: prepare_environment(hash_attributes[:environment]),
       labels: prepare_labels(hash_attributes[:labels]),
-      project: hash_attributes[:project]
+      project: hash_attributes[:project],
+      cpuShares: hash_attributes[:cpuShares],
+      cpuQuota: hash_attributes[:cpuQuota],
+      cpuset: hash_attributes[:cpuset],
+      memLimit: hash_attributes[:memLimit],
+      memSwapLimit: hash_attributes[:memSwapLimit],
     }.reject { |key, value| value.nil? }
 
     prepare_compose_labels
@@ -85,6 +90,11 @@ class ComposeContainer
       Volumes: volumes,
       ExposedPorts: exposed_ports,
       Labels: @attributes[:labels],
+      CpuShares: @attributes[:cpuShares],
+      CpuQuota: @attributes[:cpuQuota],
+      Cpuset: @attributes[:cpuset],
+      MemLimit: @attributes[:memLimit],
+      MemSwapLimit: @attributes[:memSwapLimit],
       HostConfig: {
         VolumesFrom: @attributes[:volumesFrom],
         Binds: volume_binds,
