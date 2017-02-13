@@ -13,7 +13,12 @@ describe ComposeContainer do
         volumes: ['/tmp'],
         command: 'ping -c 3 localhost',
         environment: ['ENVIRONMENT'],
-        labels: { 'com.example.foo' => 'bar' }
+        labels: { 'com.example.foo' => 'bar' },
+        cpu_shares: '10',
+        cpu_quota: '5000',
+        cpuset: '0,1',
+        mem_limit: '128m',
+        memswap_limit: '4096m'
       }
 
       @entry = ComposeContainer.new(@attributes)
@@ -29,6 +34,11 @@ describe ComposeContainer do
       expect(@entry.attributes[:environment]).to eq(@attributes[:environment])
       expect(@entry.attributes[:labels]).to eq(@attributes[:labels])
       expect(@entry.attributes[:netowrk_mode]).to eq(@attributes[:netowrk_mode])
+      expect(@entry.attributes[:cpu_shares]).to eq(@attributes[:cpuShares])
+      expect(@entry.attributes[:cpu_quota]).to eq(@attributes[:cpuQuota])
+      expect(@entry.attributes[:cpuset]).to eq(@attributes[:cpuset])
+      expect(@entry.attributes[:mem_limit]).to eq(@attributes[:memLimit])
+      expect(@entry.attributes[:memswap_limit]).to eq(@attributes[:memSwapLimit])
     end
 
     it 'should map ports' do
