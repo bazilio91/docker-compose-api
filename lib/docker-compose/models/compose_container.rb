@@ -98,7 +98,7 @@ class ComposeContainer
         NetworkMode: @attributes['notwork_mode'],
         CpuShares: @attributes[:cpuShares],
         CpuQuota: @attributes[:cpuQuota],
-        MemLimit: @attributes[:memLimit],
+        MemLimit: ComposeUtils.megabytes_to_bytes(@attributes[:memLimit]),
         MemSwapLimit: @attributes[:memSwapLimit],
       }
     }
