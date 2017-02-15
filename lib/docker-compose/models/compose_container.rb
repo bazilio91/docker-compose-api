@@ -99,8 +99,8 @@ class ComposeContainer
         NetworkMode: @attributes['notwork_mode'],
         CpuShares: @attributes[:cpuShares],
         CpuQuota: @attributes[:cpuQuota],
-        MemLimit: @attributes[:memLimit],
-        MemSwapLimit: @attributes[:memSwapLimit],
+        MemLimit: ComposeUtils.convert_memory(@attributes[:memLimit]),
+        MemSwapLimit: ComposeUtils.convert_memory(@attributes[:memSwapLimit]),
         Privileged: @attributes[:privileged]
       }
     }
