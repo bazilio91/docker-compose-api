@@ -17,7 +17,8 @@ describe ComposeContainer do
         cpu_shares: '10',
         cpu_quota: '5000',
         mem_limit: '128m',
-        memswap_limit: '4096m'
+        memswap_limit: '4096m',
+        privileged: true
       }
 
       @entry = ComposeContainer.new(@attributes)
@@ -37,6 +38,7 @@ describe ComposeContainer do
       expect(@entry.attributes[:cpu_quota]).to eq(@attributes[:cpuQuota])
       expect(@entry.attributes[:mem_limit]).to eq(@attributes[:memLimit])
       expect(@entry.attributes[:memswap_limit]).to eq(@attributes[:memSwapLimit])
+      expect(@entry.attributes[:privileged]).to eq(@attributes[:privileged])
     end
 
     it 'should map ports' do

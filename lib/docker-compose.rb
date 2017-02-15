@@ -82,6 +82,7 @@ module DockerCompose
         cpuQuota: attributes[1]['cpu_quota'],
         memLimit: attributes[1]['mem_limit'],
         memSwapLimit: attributes[1]['memswap_limit'],
+        privileged: attributes[1]['privileged'],
       }
     )
   end
@@ -107,6 +108,7 @@ module DockerCompose
       cpuQuota: info['HostConfig']['CpuQuota'],
       memLimit: info['HostConfig']['Memory'],
       memSwapLimit: info['HostConfig']['MemorySwap'],
+      privileged: info['HostConfig']['Privileged'],
       loaded_from_environment: true
     }
 

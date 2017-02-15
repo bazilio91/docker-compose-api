@@ -26,7 +26,8 @@ class ComposeContainer
       cpuShares: hash_attributes[:cpuShares],
       cpuQuota: hash_attributes[:cpuQuota],
       memLimit: hash_attributes[:memLimit],
-      memSwapLimit: hash_attributes[:memSwapLimit]
+      memSwapLimit: hash_attributes[:memSwapLimit],
+      privileged: hash_attributes[:privileged]
     }.reject { |key, value| value.nil? }
 
     prepare_compose_labels
@@ -99,7 +100,8 @@ class ComposeContainer
         CpuShares: @attributes[:cpuShares],
         CpuQuota: @attributes[:cpuQuota],
         MemLimit: @attributes[:memLimit],
-        MemSwapLimit: @attributes[:memSwapLimit]
+        MemSwapLimit: @attributes[:memSwapLimit],
+        Privileged: @attributes[:privileged]
       }
     }
 
