@@ -146,14 +146,4 @@ describe ComposeUtils do
       expect(ComposeUtils.serialize_restart_spec({'Name' => 'on-failure', 'MaximumRetryCount' => 1})).to eq('on-failure:1')
     end
   end
-
-  context 'Megabytes to bytes' do
-    it 'should generate bytes from string megabytes' do
-      expect(ComposeUtils.megabytes_to_bytes('100m')).to eq 104857600
-    end
-
-    it 'should generate 0 from string without symbol :m' do
-      expect(ComposeUtils.megabytes_to_bytes('100g')).to eq 0
-    end
-  end
 end

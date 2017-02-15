@@ -105,7 +105,7 @@ module DockerCompose
       restart: ComposeUtils.serialize_restart_spec(info['Config']['RestartPolicy']),
       cpuShares: info['HostConfig']['CpuShares'],
       cpuQuota: info['HostConfig']['CpuQuota'],
-      memLimit: ComposeUtils.megabytes_to_bytes(info['HostConfig']['Memory']),
+      memLimit: info['HostConfig']['Memory'],
       memSwapLimit: info['HostConfig']['MemorySwap'],
       loaded_from_environment: true
     }
