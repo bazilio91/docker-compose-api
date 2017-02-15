@@ -80,7 +80,6 @@ module DockerCompose
         project: compose.project_name,
         cpuShares: attributes[1]['cpu_shares'],
         cpuQuota: attributes[1]['cpu_quota'],
-        cpuset: attributes[1]['cpuset'],
         memLimit: attributes[1]['mem_limit'],
         memSwapLimit: attributes[1]['memswap_limit'],
       }
@@ -106,7 +105,7 @@ module DockerCompose
       restart: ComposeUtils.serialize_restart_spec(info['Config']['RestartPolicy']),
       cpuShares: info['HostConfig']['CpuShares'],
       cpuQuota: info['HostConfig']['CpuQuota'],
-      memLimit: info['HostConfig']['Memory'],
+      memLimit: ComposeUtils.megabytes_to_bytes(info['HostConfig']['Memory']),
       memSwapLimit: info['HostConfig']['MemorySwap'],
       loaded_from_environment: true
     }

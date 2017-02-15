@@ -192,5 +192,18 @@ module ComposeUtils
     "#{@dir_name}_#{label}_#{index}"
   end
 
+  def self.megabytes_to_bytes(megabytes)
+    return nil if megabytes.nil? || !(megabytes.is_a? String)
+    result = if megabytes.include?("m")
+               size = megabytes.size
+               number = megabytes[0..size-2].to_i
+               number * 1024 * 1024
+             else
+               0
+             end
+
+    result
+  end
+
   private_class_method :next_available_id
 end
