@@ -104,11 +104,10 @@ module DockerCompose
       labels: info['Config']['Labels'],
       project: compose.project_name,
       restart: ComposeUtils.serialize_restart_spec(info['Config']['RestartPolicy']),
-      cpuShares: info['Config']['CpuShares'],
-      cpuQuota: info['Config']['CpuQuota'],
-      cpuset: info['Config']['Cpuset'],
-      memLimit: info['Config']['MemLimit'],
-      memSwapLimit: info['Config']['MemSwapLimit'],
+      cpuShares: info['HostConfig']['CpuShares'],
+      cpuQuota: info['HostConfig']['CpuQuota'],
+      memLimit: info['HostConfig']['Memory'],
+      memSwapLimit: info['HostConfig']['MemorySwap'],
       loaded_from_environment: true
     }
 
