@@ -90,18 +90,17 @@ class ComposeContainer
       Volumes: volumes,
       ExposedPorts: exposed_ports,
       Labels: @attributes[:labels],
-      CpuShares: @attributes[:cpuShares],
-      CpuQuota: @attributes[:cpuQuota],
-      Cpuset: @attributes[:cpuset],
-      MemLimit: @attributes[:memLimit],
-      MemSwapLimit: @attributes[:memSwapLimit],
       HostConfig: {
         VolumesFrom: @attributes[:volumesFrom],
         Binds: volume_binds,
         Links: links,
         PortBindings: port_bindings,
         RestartPolicy: ComposeUtils.parse_restart_spec(@attributes[:restart]),
-        NetworkMode: @attributes['notwork_mode']
+        NetworkMode: @attributes['notwork_mode'],
+        CpuShares: @attributes[:cpuShares],
+        CpuQuota: @attributes[:cpuQuota],
+        Memory: ComposeUtils.convert_memory(@attributes[:memLimit]),
+        MemorySwap: ComposeUtils.convert_memory(@attributes[:memSwapLimit])
       }
     }
 
