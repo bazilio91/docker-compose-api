@@ -192,5 +192,24 @@ module ComposeUtils
     "#{@dir_name}_#{label}_#{index}"
   end
 
+  def self.convert_memory(memory)
+    return nil if memory.nil?
+    return memory if memory.is_a?(Integer)
+
+    unit = memory[-1, 1]
+    case unit
+    when 'b'
+      memory.chop.to_i
+    when 'k'
+      memory.chop.to_i * 1024
+    when 'm'
+      memory.chop.to_i * 1024 * 1024
+    when 'g'
+      memory.chop.to_i * 1024 * 1024 * 1024
+    else
+      memory
+    end
+  end
+
   private_class_method :next_available_id
 end
