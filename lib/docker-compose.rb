@@ -48,7 +48,7 @@ module DockerCompose
 
     if compose_entries
       compose_entries.each do |entry|
-        compose.add_container(create_container(entry, compose))
+        compose.add_or_update_container(create_container(entry, compose))
       end
     end
   end
@@ -58,7 +58,7 @@ module DockerCompose
       .all(all: true)
       .select { |c| c.info['Labels']['com.docker.compose.project'] == compose.project_name }
       .each do |container|
-      compose.add_container(load_running_container(container, compose))
+      compose.add_or_update_container(load_running_container(container, compose))
     end
   end
 
@@ -90,7 +90,7 @@ module DockerCompose
     info = container.json
 
     container_args = {
-      label: info['Name'].split(/_/)[1] || '',
+      label: info['Name'].split('-').last || '',
       full_name: info['Name'],
       image: info['Image'],
       build: nil,

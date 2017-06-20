@@ -14,14 +14,9 @@ class Compose
   public
 
   #
-  # Add a new container to compose
+  # Add a new container to compose or update existing container
   #
-  def add_container(container)
-    # Avoid duplicated labels on compose
-    while @containers.has_key?(container.attributes[:label]) do
-      container.attributes[:label].succ!
-    end
-
+  def add_or_update_container(container)
     @containers[container.attributes[:label]] = container
     true
   end
