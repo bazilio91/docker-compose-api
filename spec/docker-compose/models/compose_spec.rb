@@ -14,6 +14,14 @@ describe Compose do
   context 'Add containers' do
     before(:all) do
       @attributes_container1 = {
+        name: 'old-name',
+        label: 'container1',
+        image: 'busybox:latest',
+        command: 'ping -c 3 localhost'
+      }
+
+      @attributes_container11 = {
+        name: 'new-name',
         label: 'container1',
         image: 'busybox:latest',
         command: 'ping -c 3 localhost'
@@ -44,8 +52,8 @@ describe Compose do
     context 'Without dependencies' do
       before(:all) do
         @compose = Compose.new
-        @compose.add_container(ComposeContainer.new(@attributes_container1))
-        @compose.add_container(ComposeContainer.new(@attributes_container3))
+        @compose.add_or_update_container(ComposeContainer.new(@attributes_container1))
+        @compose.add_or_update_container(ComposeContainer.new(@attributes_container3))
         @compose.link_containers
       end
 
@@ -63,9 +71,9 @@ describe Compose do
     context 'With dependencies' do
       before(:all) do
         @compose = Compose.new
-        @compose.add_container(ComposeContainer.new(@attributes_container2))
-        @compose.add_container(ComposeContainer.new(@attributes_container3))
-        @compose.add_container(ComposeContainer.new(@attributes_container_from_environment))
+        @compose.add_or_update_container(ComposeContainer.new(@attributes_container2))
+        @compose.add_or_update_container(ComposeContainer.new(@attributes_container3))
+        @compose.add_or_update_container(ComposeContainer.new(@attributes_container_from_environment))
         @compose.link_containers
       end
 
@@ -87,17 +95,14 @@ describe Compose do
       end
     end
 
-    it 'should increment label when already exists' do
+    it 'should update container with the same label' do
       @compose = Compose.new
 
-      # Add the same container twice
-      @compose.add_container(ComposeContainer.new(@attributes_container1))
-      @compose.add_container(ComposeContainer.new(@attributes_container1))
+      # updating container
+      @compose.add_or_update_container(ComposeContainer.new(@attributes_container1))
+      @compose.add_or_update_container(ComposeContainer.new(@attributes_container11))
 
-      label_first_container  = @compose.containers.keys[0]
-      label_second_container = @compose.containers.keys[1]
-
-      expect(label_first_container).to_not eq(label_second_container)
+      expect(@compose.containers['container1'].attributes[:name]).to include('dockercomposeapi_new-name')
     end
   end
 end
