@@ -16,11 +16,11 @@ class Compose
   #
   # Add a new container to compose
   #
-  def add_container(container)
+  def add_container(container, update: false)
     # Avoid duplicated labels on compose
     while @containers.has_key?(container.attributes[:label]) do
       container.attributes[:label].succ!
-    end
+    end unless update
 
     @containers[container.attributes[:label]] = container
     true
@@ -90,7 +90,7 @@ class Compose
   # If labels is informed, only those containers with label present in array will be killed.
   # Otherwise, all containers are killed
   #
-  def kill(labels  = [])
+  def kill(labels = [])
     call_container_method(:kill, labels)
   end
 
